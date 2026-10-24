@@ -134,7 +134,7 @@ Contoh: harga Ya 40¢. Kamu beli saham Ya senilai 1 MON dan mendapat sekitar 2,4
 
 ### 1. Clone dan install
 ```bash
-git clone https://github.com/USERNAME/monad-predict.git
+git clone https://github.com/nafalzahy/monad-predict.git
 cd monad-predict
 curl -L https://foundry.category.xyz | bash
 foundryup --network monad
