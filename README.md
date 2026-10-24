@@ -3,7 +3,7 @@
 **Prediction market di Monad Testnet.** Tebak masa depan dengan MON: beli saham **Ya** atau **Tidak**, harga otomatis menunjukkan peluangnya, dan pemenang menarik hadiah langsung dari smart contract.
 
 🔗 **Coba langsung:** https://monad-predict.vercel.app
-📜 **Smart contract:** `0x9696028adE0493F06eD004F320447BeF58b1883e` ([lihat di explorer](https://testnet.monadvision.com/address/ALAMAT_CONTRACT_KAMU))
+📜 **Smart contract:** `0x9696028adE0493F06eD004F320447BeF58b1883e` ([lihat di explorer](https://testnet.monadvision.com/address/0x9696028adE0493F06eD004F320447BeF58b1883e))
 🌐 **Jaringan:** Monad Testnet (hanya testnet, tanpa uang asli)
 
 ---
