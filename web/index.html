@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;800&display=swap"><title>MonadPredict - Prediction Market di Monad Testnet</title>
+<style>
+:root{--bg:#0a0818;--card:#141030;--card2:#1b1640;--line:#2b2554;--tx:#f3f0ff;--mu:#9a94c4;--ac:#836ef9;--ac2:#b9a8ff;--yes:#2fd18b;--no:#ff5c7f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;color:var(--tx);font:15px/1.55 Inter,"Segoe UI",system-ui,sans-serif;background:radial-gradient(900px 520px at 12% -10%,#3a2390aa,transparent),radial-gradient(800px 480px at 100% 0,#5b2bd144,transparent),var(--bg);background-attachment:fixed;min-height:100vh}
+h1,h2,h3,.logo,.pc,.pbig,.stat b{font-family:Sora,Inter,sans-serif}h1,h2,h3{margin:0}
+a{color:inherit;text-decoration:none}.mu{color:var(--mu)}small{color:var(--mu);font-weight:400}
+:focus-visible{outline:2px solid var(--ac2);outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:#0a0818cc;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;gap:22px;align-items:center;padding:12px 28px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.02em}.logo b{color:var(--ac2)}
+nav a{color:var(--mu);margin-right:6px;padding:7px 12px;border-radius:9px;font-weight:500}nav a:hover{color:var(--tx)}nav a.on{color:var(--tx);background:#211b4d}
+.sp{flex:1}
+input,select,textarea{background:#0e0a24;border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:11px 14px;font:inherit;width:100%;margin:4px 0 10px;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 3px #836ef933}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:11px 18px;background:linear-gradient(135deg,#8f7bff,#6a4df0);color:#fff;font-weight:600;transition:transform .12s,filter .12s}
+button:hover{filter:brightness(1.1)}button:active{transform:scale(.98)}button.g{background:#241e4f;color:var(--tx)}button:disabled{opacity:.5}
+main{max-width:1120px;margin:0 auto;padding:24px 24px 80px}
+.hero{padding:36px 0 10px}.pill{display:inline-block;background:#211b4d;border:1px solid var(--line);color:var(--ac2);padding:5px 12px;border-radius:99px;font-size:13px;font-weight:600;margin-bottom:16px}
+.hero h1{font-size:clamp(30px,6vw,54px);line-height:1.08;letter-spacing:-.03em}.hero h1 span{background:linear-gradient(90deg,#b9a8ff,#2fd18b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:520px;margin:14px 0 0}
+.stats{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}.stat{background:#141030cc;border:1px solid var(--line);border-radius:16px;padding:12px 20px;min-width:130px}.stat b{display:block;font-size:24px;letter-spacing:-.02em}
+.bar{display:flex;gap:10px;margin-top:26px}.bar input{margin:0}.bar button{white-space:nowrap}
+.tabs{display:flex;gap:8px;overflow:auto;margin:16px 0 20px;padding-bottom:4px}.tabs button{background:#1a1540;color:var(--mu);white-space:nowrap;border:1px solid var(--line);padding:8px 16px;border-radius:99px}.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.card{display:block;background:linear-gradient(180deg,#171236,#120e2b);border:1px solid var(--line);border-radius:20px;padding:18px}
+a.mk{transition:border-color .15s,transform .15s,box-shadow .15s}a.mk:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:0 14px 36px #836ef933}
+.center{text-align:center;padding:48px}
+.row{display:flex;gap:12px;align-items:flex-start}.em{font-size:26px;background:#231c52;border-radius:14px;width:48px;height:48px;display:grid;place-items:center;flex:none}
+.qq{flex:1;font-weight:600;line-height:1.35}.ring{width:56px;height:56px;flex:none}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 12px}.btns span{text-align:center;padding:11px;border-radius:12px;font-weight:600}
+.btns .yb{background:#0f3a2e;color:var(--yes);border:1px solid #1d6b52}.btns .nb{background:#3d1527;color:var(--no);border:1px solid #7a2a47}.btns b{font-family:Sora,sans-serif}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;color:var(--mu);font-size:13px;margin-top:8px}
+.chip{background:#231c52;color:var(--ac2);padding:2px 10px;border-radius:99px;font-weight:600}
+.badge{margin-left:auto;font-weight:600;font-size:12px}.badge.live{color:var(--yes)}.badge.wait{color:#ffc857}.badge.done{color:var(--ac2)}
+.yes{color:var(--yes)}.no{color:var(--no)}.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.det{display:grid;grid-template-columns:1fr 360px;gap:22px;margin-top:14px;align-items:start}.det>div>.card{margin-top:16px}
+#tp{position:sticky;top:78px}
+@media(max-width:860px){.det{grid-template-columns:1fr}#tp{position:static}header{padding:10px 14px;gap:10px}.hero{padding-top:20px}}
+.big{width:60px;height:60px;font-size:32px}.det h2{font-size:24px;line-height:1.25;letter-spacing:-.01em}
+.pbig{font-size:38px;font-weight:800;color:var(--yes);letter-spacing:-.02em}
+.chart{width:100%;height:190px;margin-top:10px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;background:#0e0a24;padding:4px;border-radius:14px}
+.seg button,.row2 button{background:#241e4f;color:var(--mu)}.seg button{background:transparent}.seg button.on{background:var(--ac);color:#fff}
+.row2 button{padding:14px;font-weight:700}.row2 button.sy.on{background:var(--yes);color:#04140d}.row2 button.sn.on{background:var(--no);color:#fff}
+.quick{display:flex;gap:6px;margin-bottom:8px}.quick button{padding:7px 14px;border-radius:99px}
+.est{min-height:46px;color:var(--mu);font-size:13px;margin:6px 0 10px}.est b{color:var(--tx)}
+.pos{margin-top:14px;color:var(--mu);font-size:13px;border-top:1px solid var(--line);padding-top:12px}
+.act{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #2b255466;font-size:14px}
+.skel{height:170px;background:linear-gradient(90deg,#141030,#1d1745,#141030);background-size:200% 100%;animation:sk 1.4s infinite}@keyframes sk{to{background-position:-200% 0}}
+#toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,30px);background:#1f1a45;border:1px solid var(--ac);padding:13px 20px;border-radius:14px;opacity:0;transition:.2s;pointer-events:none;max-width:90vw;z-index:20;box-shadow:0 10px 40px #000a}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.err{border-color:var(--no)}
+#modal{position:fixed;inset:0;background:#05030fcc;backdrop-filter:blur(4px);display:none;place-items:center;z-index:10;padding:16px}#modal.show{display:grid}
+#modal .card{width:min(540px,100%);max-height:92vh;overflow:auto}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header><a class="logo" href="#/">Monad<b>Predict</b></a><nav><a href="#/">Pasar</a><a href="#/portfolio">Portofolio</a></nav><div class="sp"></div><button id="wb">Connect Wallet</button></header>
+<main id="app"><div class="grid"><div class="card skel"></div><div class="card skel"></div><div class="card skel"></div><div class="card skel"></div><div class="card skel"></div><div class="card skel"></div></div></main><div id="toast"></div><div id="modal"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<script>
+const CONTRACT_ADDRESS="0x9696028adE0493F06eD004F320447BeF58b1883e";
+const RPC="https://testnet-rpc.monad.xyz";
+const M_T="tuple(uint256 id,address creator,string question,string description,string category,string emoji,uint64 createdAt,uint64 closeTime,bool resolved,bool yesWon,uint256 yesReserve,uint256 noReserve,uint256 collateral,uint256 volume,uint256 fees,bool lpClaimed)";
+const T_T="tuple(address trader,bool isYes,bool isBuy,uint256 amount,uint256 shares,uint16 yesPriceBps,uint64 time)";
+const ABI=[`function getMarkets(uint256,uint256) view returns (${M_T}[])`,"function marketCount() view returns (uint256)",
+`function getTrades(uint256,uint256,uint256) view returns (${T_T}[])`,"function tradeCount(uint256) view returns (uint256)",
+"function yesShares(uint256,address) view returns (uint256)","function noShares(uint256,address) view returns (uint256)",
+"function quoteBuy(uint256,bool,uint256) view returns (uint256)","function quoteSell(uint256,bool,uint256) view returns (uint256)",
+"function createMarket(string,string,string,string,uint64) payable returns (uint256)","function buy(uint256,bool,uint256) payable",
+"function sell(uint256,bool,uint256,uint256)","function resolve(uint256,bool)","function redeem(uint256)","function claimCreator(uint256)"];
+const E=ethers,$=s=>document.querySelector(s),on=(s,f)=>{const e=$(s);if(e)e.onclick=f};
+const rc=new E.Contract(CONTRACT_ADDRESS,ABI,new E.JsonRpcProvider(RPC,10143));
+let wc=null,me=null,markets=[],cat="Semua",q="",T={mode:"buy",yes:true,amt:"0.1"};
+const CATS=["Semua","Crypto","Politik","Olahraga","Teknologi","Hiburan","Lainnya"];
+const pct=m=>{const t=m.yesReserve+m.noReserve;return t?Number(m.noReserve*10000n/t)/100:50};
+const mon=(w,d=3)=>(+E.formatEther(w)).toFixed(d),short=a=>a.slice(0,6)+"…"+a.slice(-4);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const status=m=>m.resolved?"resolved":(Date.now()/1000>=Number(m.closeTime)?"closed":"open");
+const left=m=>{const s=Number(m.closeTime)-Date.now()/1000;if(s<=0)return"Ditutup";const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),i=Math.floor(s%3600/60);return d?`${d}h ${h}j lagi`:h?`${h}j ${i}m lagi`:`${i}m lagi`};
+const isMine=m=>me&&m.creator.toLowerCase()===me.toLowerCase();
+function toast(t,err){const e=$("#toast");e.textContent=t;e.className="show"+(err?" err":"");clearTimeout(toast.t);toast.t=setTimeout(()=>e.className="",5000)}
+const need=()=>wc?true:(toast("Hubungkan wallet dulu",1),false);
+async function load(){const n=Number(await rc.marketCount());markets=n?[...await rc.getMarkets(0,n)]:[]}
+async function tx(fn,ok){try{toast("Konfirmasi di wallet…");const t=await fn();toast("Menunggu konfirmasi…");await t.wait();toast(ok||"Berhasil ✅");await load();route()}catch(e){toast("Gagal: "+(e.reason||e.shortMessage||e.message),1)}}
+async function connect(){
+ if(!window.ethereum)return toast("Install MetaMask dulu",1);
+ try{await ethereum.request({method:"eth_requestAccounts"});
+  try{await ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x279f"}]})}
+  catch(e){if(e.code===4902||e.code===-32603)await ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x279f",chainName:"Monad Testnet",nativeCurrency:{name:"Monad",symbol:"MON",decimals:18},rpcUrls:[RPC],blockExplorerUrls:["https://testnet.monadvision.com"]}]});else throw e}
+  const s=await new E.BrowserProvider(ethereum).getSigner();me=await s.getAddress();wc=new E.Contract(CONTRACT_ADDRESS,ABI,s);
+  $("#wb").textContent=short(me);route()}catch(e){toast(e.shortMessage||e.message,1)}}
+$("#wb").onclick=connect;
+if(window.ethereum){ethereum.on("accountsChanged",()=>location.reload());ethereum.on("chainChanged",()=>location.reload())}
+
+/* ---------- Beranda ---------- */
+const ring=p=>{const r=22,c=2*Math.PI*r;return `<svg class="ring" viewBox="0 0 56 56"><circle cx="28" cy="28" r="${r}" fill="none" stroke="#2b2554" stroke-width="6"/><circle cx="28" cy="28" r="${r}" fill="none" stroke="${p>=50?"#2fd18b":"#ff5c7f"}" stroke-width="6" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p/100)).toFixed(1)}" transform="rotate(-90 28 28)"/><text x="28" y="33" text-anchor="middle" font-size="14" font-weight="800" fill="#f3f0ff">${p.toFixed(0)}%</text></svg>`};
+const card=m=>{const p=pct(m),s=status(m);const bd=s==="resolved"?`<span class="badge done">Selesai · ${m.yesWon?"YA":"TIDAK"}</span>`:s==="closed"?'<span class="badge wait">Menunggu hasil</span>':`<span class="badge live">● ${left(m)}</span>`;return `<a class="card mk" href="#/m/${m.id}"><div class="row"><span class="em">${esc(m.emoji||"🔮")}</span><div class="qq">${esc(m.question)}</div>${ring(p)}</div><div class="btns"><span class="yb">Ya <b>${p.toFixed(0)}¢</b></span><span class="nb">Tidak <b>${(100-p).toFixed(0)}¢</b></span></div><div class="meta"><span class="chip">${esc(m.category)}</span><span>Vol ${mon(m.volume,2)} MON</span>${bd}</div></a>`};
+function drawGrid(){const l=markets.filter(m=>(cat==="Semua"||m.category===cat)&&m.question.toLowerCase().includes(q)).sort((a,b)=>Number(b.volume-a.volume));
+ $("#g").innerHTML=l.map(card).join("")||'<p class="mu">Belum ada pasar di sini. Buat yang pertama!</p>'}
+function home(){const tot=markets.reduce((s,m)=>s+m.volume,0n);
+ $("#app").innerHTML=`<div class="hero"><div class="pill">🟣 Live di Monad Testnet</div><h1>Prediksi masa depan.<br><span>Menangkan MON.</span></h1><p class="mu">Beli saham Ya atau Tidak. Harga adalah peluang, dan kamu bisa jual kapan saja sebelum pasar tutup.</p><div class="stats"><div class="stat"><b>${markets.length}</b><small>Pasar</small></div><div class="stat"><b>${mon(tot,2)}</b><small>Volume (MON)</small></div><div class="stat"><b>${markets.filter(m=>status(m)==="open").length}</b><small>Masih terbuka</small></div></div></div>
+ <div class="bar"><input id="s" placeholder="Cari pasar…" value="${esc(q)}"><button id="cr">+ Buat pasar</button></div>
+ <div class="tabs">${CATS.map(c=>`<button data-c="${c}" class="${c===cat?"on":""}">${c}</button>`).join("")}</div><div class="grid" id="g"></div>`;
+ drawGrid();$("#s").oninput=e=>{q=e.target.value.toLowerCase();drawGrid()};
+ document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{cat=b.dataset.c;home()});on("#cr",createModal)}
+
+/* ---------- Detail pasar ---------- */
+async function detail(id){
+ const m=markets[id];if(!m)return $("#app").innerHTML='<p class="mu">Pasar tidak ditemukan.</p>';
+ const n=Number(await rc.tradeCount(id)),tr=n?[...await rc.getTrades(id,0,n)]:[];
+ let ys=0n,ns=0n;if(me)[ys,ns]=await Promise.all([rc.yesShares(id,me),rc.noShares(id,me)]);
+ const pts=[50,...tr.map(t=>Number(t.yesPriceBps)/100)],P=pts.length<2?[50,50]:pts,W=600,H=180;
+ const line=P.map((v,i)=>`${i?"L":"M"}${(i/(P.length-1)*W).toFixed(1)} ${(H-v/100*H).toFixed(1)}`).join("");
+ const act=tr.slice(-15).reverse().map(t=>`<div class="act"><span>${short(t.trader)} ${t.isBuy?"beli":"jual"} <b class="${t.isYes?"yes":"no"}">${t.isYes?"Ya":"Tidak"}</b></span><span>${mon(t.amount,3)} MON</span></div>`).join("")||'<p class="mu">Belum ada transaksi.</p>';
+ const s=status(m),p=pct(m);
+ $("#app").innerHTML=`<a href="#/" class="mu">← Semua pasar</a><div class="det"><div>
+ <div class="row" style="margin-top:12px"><span class="em big">${esc(m.emoji||"🔮")}</span><h2>${esc(m.question)}</h2></div>
+ <div class="meta"><span>${esc(m.category)}</span><span>Vol ${mon(m.volume,2)} MON</span><span>Likuiditas ${mon(m.collateral,2)} MON</span><span>${s==="resolved"?(m.yesWon?"Hasil: YA":"Hasil: TIDAK"):"Tutup "+new Date(Number(m.closeTime)*1000).toLocaleString("id-ID")}</span></div>
+ <div class="card"><div class="pbig">${p.toFixed(1)}% <small>peluang Ya</small></div><svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><path d="${line} L${W} ${H} L0 ${H}Z" fill="#2fd18b22"/><path d="${line}" fill="none" stroke="#2fd18b" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg></div>
+ <div class="card"><h3>Deskripsi & aturan</h3><p>${esc(m.description||"-")}</p><small>Pembuat ${short(m.creator)} · hasil diputuskan oleh pembuat pasar · fee 1%</small></div>
+ <div class="card"><h3>Aktivitas terbaru</h3>${act}</div></div><div class="card" id="tp"></div></div>`;
+ panel(id,m,ys,ns)}
+function panel(id,m,ys,ns){
+ const s=status(m),p=pct(m);let h="<h3>Perdagangan</h3>";
+ if(s==="open")h+=`<div class="seg" style="margin-top:12px"><button data-m="buy" class="${T.mode==="buy"?"on":""}">Beli</button><button data-m="sell" class="${T.mode==="sell"?"on":""}">Jual</button></div>
+ <div class="row2"><button class="sy ${T.yes?"on":""}" data-y="1">Ya ${p.toFixed(0)}¢</button><button class="sn ${T.yes?"":"on"}" data-y="0">Tidak ${(100-p).toFixed(0)}¢</button></div>
+ <label class="mu">${T.mode==="buy"?"Jumlah (MON)":"Jumlah saham"}</label><input id="amt" type="number" min="0" step="0.01" value="${T.amt}">
+ <div class="quick">${T.mode==="buy"?[0.1,0.5,1].map(v=>`<button class="g" data-q="${v}">+${v}</button>`).join(""):`<button class="g" id="mx">Maks ${mon(T.yes?ys:ns,3)}</button>`}</div>
+ <div id="est" class="est">—</div><button id="go" style="width:100%">${T.mode==="buy"?"Beli":"Jual"} ${T.yes?"Ya":"Tidak"}</button>`;
+ else if(s==="closed"){h+='<p class="mu">Pasar ditutup. Menunggu keputusan pembuat pasar.</p>';if(isMine(m))h+='<div class="row2"><button id="rY" class="sy on">Hasil: YA</button><button id="rN" class="sn on">Hasil: TIDAK</button></div>'}
+ else{const w=m.yesWon?ys:ns;h+=`<p>Hasil akhir: <b>${m.yesWon?"YA":"TIDAK"}</b></p>`+(w>0n?`<button id="rd" style="width:100%">Klaim ${mon(w,3)} MON</button>`:'<p class="mu">Tidak ada hadiah untuk akun ini.</p>')}
+ if(isMine(m)&&(m.fees>0n||(m.resolved&&!m.lpClaimed)))h+='<button id="cc" class="g" style="width:100%;margin-top:10px">Tarik fee & likuiditas</button>';
+ h+=me?`<div class="pos">Posisimu: Ya ${mon(ys,3)} · Tidak ${mon(ns,3)}</div>`:'<button id="cw" style="width:100%;margin-top:10px">Connect Wallet</button>';
+ $("#tp").innerHTML=h;
+ document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{T.mode=b.dataset.m;T.amt=T.mode==="buy"?"0.1":"";panel(id,m,ys,ns)});
+ document.querySelectorAll("[data-y]").forEach(b=>b.onclick=()=>{T.yes=b.dataset.y==="1";panel(id,m,ys,ns)});
+ document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{T.amt=String((+($("#amt").value||0)+ +b.dataset.q).toFixed(3));$("#amt").value=T.amt;est(id)});
+ on("#mx",()=>{T.amt=E.formatEther(T.yes?ys:ns);$("#amt").value=T.amt;est(id)});
+ if($("#amt")){$("#amt").oninput=e=>{T.amt=e.target.value;est(id)};est(id)}
+ on("#cw",connect);
+ on("#go",async()=>{if(!need())return;const v=$("#amt").value;if(!(+v>0))return toast("Isi jumlah dulu",1);
+  try{const a=E.parseEther(v);
+   if(T.mode==="buy"){const x=await rc.quoteBuy(id,T.yes,a);tx(()=>wc.buy(id,T.yes,x*97n/100n,{value:a}),"Berhasil beli ✅")}
+   else{const r=await rc.quoteSell(id,T.yes,a);tx(()=>wc.sell(id,T.yes,a,r*97n/100n),"Berhasil jual ✅")}
+  }catch(e){toast("Gagal: "+(e.reason||e.shortMessage||e.message),1)}});
+ on("#rY",()=>need()&&tx(()=>wc.resolve(id,true),"Pasar diputuskan: YA"));on("#rN",()=>need()&&tx(()=>wc.resolve(id,false),"Pasar diputuskan: TIDAK"));
+ on("#rd",()=>need()&&tx(()=>wc.redeem(id),"Hadiah diklaim 🎉"));on("#cc",()=>need()&&tx(()=>wc.claimCreator(id),"Dana ditarik ✅"))}
+async function est(id){const v=$("#amt").value;let t="—";
+ try{if(+v>0){const a=E.parseEther(v);
+  if(T.mode==="buy"){const x=await rc.quoteBuy(id,T.yes,a);t=`Estimasi saham <b>${mon(x,3)}</b> · jika menang <b>${mon(x,3)} MON</b> (untung ${((+E.formatEther(x)/+v-1)*100).toFixed(0)}%)`}
+  else{const r=await rc.quoteSell(id,T.yes,a);t=`Kamu menerima ≈ <b>${mon(r,4)} MON</b>`}}}catch(e){}
+ const el=$("#est");if(el)el.innerHTML=t}
+
+/* ---------- Portofolio ---------- */
+async function portfolio(){
+ if(!me){$("#app").innerHTML='<div class="card center"><h2>Hubungkan wallet</h2><p class="mu">Lihat posisi dan klaim hadiahmu.</p><button id="c2">Connect Wallet</button></div>';return on("#c2",connect)}
+ const rows=await Promise.all(markets.map(async m=>({m,y:await rc.yesShares(m.id,me),n:await rc.noShares(m.id,me)})));
+ const mine=rows.filter(r=>r.y>0n||r.n>0n),made=markets.filter(isMine);
+ const val=mine.reduce((s,r)=>s+ +E.formatEther(r.y)*pct(r.m)/100+ +E.formatEther(r.n)*(100-pct(r.m))/100,0);
+ $("#app").innerHTML=`<div class="hero"><h1>Portofolio</h1><p class="mu">${short(me)} · nilai posisi ≈ ${val.toFixed(3)} MON</p></div>
+ <h3 style="margin:18px 0 10px">Posisiku</h3><div class="grid">${mine.map(r=>`<a class="card" href="#/m/${r.m.id}"><div class="qq">${esc(r.m.question)}</div><div class="meta"><span class="yes">Ya ${mon(r.y,3)}</span><span class="no">Tidak ${mon(r.n,3)}</span><span>${status(r.m)==="resolved"?"Selesai":left(r.m)}</span></div></a>`).join("")||'<p class="mu">Belum ada posisi.</p>'}</div>
+ <h3 style="margin:22px 0 10px">Pasar buatanku</h3><div class="grid">${made.map(card).join("")||'<p class="mu">Belum membuat pasar.</p>'}</div>`}
+
+/* ---------- Buat pasar ---------- */
+function createModal(){const md=$("#modal");md.className="show";
+ md.innerHTML=`<div class="card"><h2 style="margin-bottom:12px">Buat pasar baru</h2>
+ <label class="mu">Pertanyaan (jawabannya Ya/Tidak)</label><input id="fq" maxlength="200" placeholder="Apakah BTC tembus 150 ribu USD sebelum 2027?">
+ <label class="mu">Deskripsi & aturan resolusi</label><textarea id="fd" rows="3" placeholder="Sumber data & kriteria menang"></textarea>
+ <div class="row2"><div><label class="mu">Kategori</label><select id="fc">${CATS.slice(1).map(c=>`<option>${c}</option>`).join("")}</select></div><div><label class="mu">Emoji</label><input id="fe" maxlength="4" value="🔮"></div></div>
+ <div class="row2"><div><label class="mu">Waktu tutup</label><input id="ft" type="datetime-local"></div><div><label class="mu">Likuiditas awal (MON)</label><input id="fl" type="number" min="0.01" step="0.01" value="0.05"></div></div>
+ <p class="mu" style="font-size:12px">Likuiditas dikembalikan ke kamu setelah pasar diputuskan. Kamu juga mendapat fee 1% dari tiap transaksi.</p>
+ <div class="row2"><button class="g" id="fx">Batal</button><button id="fs">Buat pasar</button></div></div>`;
+ on("#fx",()=>md.className="");md.onclick=e=>{if(e.target===md)md.className=""};
+ on("#fs",()=>{if(!need())return;const ct=Math.floor(new Date($("#ft").value).getTime()/1000);
+  if(!$("#fq").value||!ct||ct<Date.now()/1000+120)return toast("Isi pertanyaan & waktu tutup (minimal 2 menit lagi)",1);
+  md.className="";tx(()=>wc.createMarket($("#fq").value.trim(),$("#fd").value.trim(),$("#fc").value,$("#fe").value||"🔮",ct,{value:E.parseEther($("#fl").value||"0.05")}),"Pasar dibuat 🎉")})}
+
+/* ---------- Router ---------- */
+function route(){const[,p,id]=(location.hash.slice(1)||"/").split("/");
+ document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#/"+(p||"")));
+ window.scrollTo(0,0);if(p==="m")return detail(+id);if(p==="portfolio")return portfolio();home()}
+window.onhashchange=route;
+(async()=>{if(CONTRACT_ADDRESS.includes("ALAMAT"))return $("#app").innerHTML='<div class="card center"><h2>Isi CONTRACT_ADDRESS</h2><p class="mu">Ganti ALAMAT_CONTRACT_KAMU di index.html dengan alamat hasil deploy.</p></div>';
+ try{await load()}catch(e){toast("Gagal membaca contract: "+(e.shortMessage||e.message),1)}route()})();
+</script></body></html>
